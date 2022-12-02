@@ -43,7 +43,7 @@
   </div>
 
   <script>
-    function debounce(func, wait = 20, immediate = true) {
+    function debounce(func, wait = 20, immediate = true) { // Runs checkSlide intervals of 20ms
       var timeout;
       return function() {
         var context = this, args = arguments;
@@ -57,6 +57,27 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    function checkSlide(e){
+      // Loop over images
+      // Once around 50% of image is viewable, fade in halfway
+
+      sliderImages.forEach(sliderImage => {
+        // console.log(window.scrollY + window.innerHeight);
+        //window.scrollY takes the very top of browser by itself
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2; // The div2 leads to fade in around 50% height
+        const imageBottom = sliderImage.offsetTop + sliderImage.height; // How far top of image is from window -> bottom image
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom; // If scrolled past, fade out
+
+        if(isHalfShown && isNotScrolledPast){
+          sliderImage.classList.add('active');
+        } else sliderImage.classList.remove('active');
+      })
+    }
+
+    const sliderImages = document.querySelectorAll('.slide-in');
+    window.addEventListener('scroll', debounce(checkSlide));
 
   </script>
 
