@@ -19,7 +19,23 @@
 
 <button></button>
 <script src="script.js">
+  const divs = document.querySelectorAll('div');
+  const button = document.querySelector('button');
 
+  function logText(e){
+    e.stopPropagation(); //stops bubbling
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false, // Default false
+    once: true 
+    }));
+
+  button.addEventListener('click', ()=>{
+    console.log()
+  }, {
+    once: true
+  })
 </script>
 </body>
 </html>
